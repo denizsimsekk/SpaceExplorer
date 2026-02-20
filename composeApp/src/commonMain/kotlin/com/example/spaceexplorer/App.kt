@@ -15,15 +15,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.spaceexplorer.di.koin
+import com.example.spaceexplorer.presentation.spacelaunches.SpaceLaunchesScreen
+import com.example.spaceexplorer.presentation.spacelaunches.SpaceLaunchesViewModel
 import org.jetbrains.compose.resources.painterResource
+import org.koin.core.parameter.parametersOf
 
 import spaceexplorer.composeapp.generated.resources.Res
 import spaceexplorer.composeapp.generated.resources.compose_multiplatform
+import kotlin.text.get
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
+        val viewModel = remember {
+            koin.get<SpaceLaunchesViewModel> { parametersOf() }
+        }
 
+        SpaceLaunchesScreen(viewModel = viewModel)
     }
 }
