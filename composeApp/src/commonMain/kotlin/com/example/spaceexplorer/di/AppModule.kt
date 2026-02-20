@@ -1,5 +1,7 @@
 package com.example.spaceexplorer.di
 
+import com.example.spaceexplorer.data.local.DatabaseDriverFactory
+import com.example.spaceexplorer.database.SpaceExplorerDatabase
 import com.example.spaceexplorer.Platform
 import com.example.spaceexplorer.data.remote.ApiClient
 import com.example.spaceexplorer.data.remote.ApiService
@@ -8,20 +10,10 @@ import com.example.spaceexplorer.domain.repository.SpaceLaunchesRepository
 import com.example.spaceexplorer.domain.usecase.GetSpaceLaunchesUseCase
 import com.example.spaceexplorer.getPlatform
 import com.example.spaceexplorer.presentation.spacelaunches.SpaceLaunchesViewModel
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
-import org.koin.core.Koin
-import org.koin.core.KoinApplication
-import org.koin.core.module.dsl.singleOf
-import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-private var _koin: Koin? = null
-
-private val networkModule = module {
+val networkModule = module {
     single { ApiClient.httpClient }
     single { ApiService(get()) }
 }
@@ -38,28 +30,25 @@ private val viewModelModule = module {
     factory<SpaceLaunchesViewModel> { SpaceLaunchesViewModel(get()) }
 }
 
-private val platformModule = module {
+private val platformCoreModule = module {
     single<Platform> { getPlatform() }
 }
 
-fun getPlatformModule(): Module = platformModule
-
-fun getAllModules(extraModules: List<Module> = emptyList()): List<Module> =
-    listOf(networkModule, platformModule, repositoryModule, useCaseModule, viewModelModule) + extraModules
-
-fun initKoin(extraModules: List<Module> = emptyList()): KoinApplication {
-    val app = startKoin {
-        applyPlatformConfig()
-        modules(getAllModules(extraModules))
+private val databaseModule = module {
+    single {
+        val driver = get<DatabaseDriverFactory>().createDriver()
+        SpaceExplorerDatabase(driver)
     }
-    _koin = app.koin
-    return app
 }
 
-fun ensureKoin(extraModules: List<Module> = emptyList()) {
-    if (_koin == null) initKoin(extraModules)
-}
+expect fun platformModule(): Module
 
-val koin: Koin
-    get() = _koin
-        ?: error("Koin not initialized. Call initKoin() or ensureKoin() before using koin.")
+val appModules = listOf(
+    platformModule(),
+    networkModule,
+    repositoryModule,
+    useCaseModule,
+    viewModelModule,
+    platformCoreModule,
+    databaseModule
+)

@@ -1,5 +1,7 @@
 TEAM_ID=
 
+OTHER_LDFLAGS = $(inherited) -lsqlite3
+
 PRODUCT_NAME=SpaceExplorer
 PRODUCT_BUNDLE_IDENTIFIER=com.example.spaceexplorer.SpaceExplorer$(TEAM_ID)
 
