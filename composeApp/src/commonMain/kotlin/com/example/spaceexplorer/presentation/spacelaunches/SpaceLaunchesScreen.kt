@@ -14,4 +14,8 @@ fun SpaceLaunchesScreen(viewModel: SpaceLaunchesViewModel) {
         viewModel.getSpaceLaunches()
     }
 
+    uiState.spaceLaunches.forEach {
+        println("name: ${it.rocketDetails?.name}")
+    }
+
 }

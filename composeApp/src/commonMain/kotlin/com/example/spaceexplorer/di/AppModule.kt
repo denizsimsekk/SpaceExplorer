@@ -5,7 +5,9 @@ import com.example.spaceexplorer.database.SpaceExplorerDatabase
 import com.example.spaceexplorer.Platform
 import com.example.spaceexplorer.data.remote.ApiClient
 import com.example.spaceexplorer.data.remote.ApiService
+import com.example.spaceexplorer.data.repository.RocketRepositoryImpl
 import com.example.spaceexplorer.data.repository.SpaceLaunchesRepositoryImpl
+import com.example.spaceexplorer.domain.repository.RocketRepository
 import com.example.spaceexplorer.domain.repository.SpaceLaunchesRepository
 import com.example.spaceexplorer.domain.usecase.GetSpaceLaunchesUseCase
 import com.example.spaceexplorer.getPlatform
@@ -20,10 +22,20 @@ val networkModule = module {
 
 private val repositoryModule = module {
     single<SpaceLaunchesRepository> { SpaceLaunchesRepositoryImpl(get()) }
+    single<RocketRepository> {
+        RocketRepositoryImpl(
+            apiService = get(),
+        )
+    }
 }
 
 private val useCaseModule = module {
-    factory<GetSpaceLaunchesUseCase> { GetSpaceLaunchesUseCase(get()) }
+    factory<GetSpaceLaunchesUseCase> {
+        GetSpaceLaunchesUseCase(
+            spaceLaunchesRepository = get(),
+            rocketRepository = get()
+        )
+    }
 }
 
 private val viewModelModule = module {

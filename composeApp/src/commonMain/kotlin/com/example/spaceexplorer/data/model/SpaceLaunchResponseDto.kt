@@ -4,7 +4,7 @@ import com.example.spaceexplorer.domain.model.SpaceLaunchesViewEntity
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SpaceLaunchResponseItem(
+data class SpaceLaunchResponseDto(
     val auto_update: Boolean? = null,
     val capsules: List<String>? = null,
     val cores: List<Core>? = null,

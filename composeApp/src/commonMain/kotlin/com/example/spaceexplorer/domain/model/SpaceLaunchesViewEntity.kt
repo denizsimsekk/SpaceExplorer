@@ -32,5 +32,6 @@ data class SpaceLaunchesViewEntity(
     val success: Boolean,
     val tbd: Boolean,
     val upcoming: Boolean,
-    val window: Int
+    val window: Int,
+    var rocketDetails: RocketViewEntity? = null
 )

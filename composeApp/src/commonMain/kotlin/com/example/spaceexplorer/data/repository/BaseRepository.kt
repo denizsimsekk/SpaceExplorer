@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.io.IOException
 
 abstract class BaseRepository {
 
@@ -19,5 +20,15 @@ abstract class BaseRepository {
     }.catch { error ->
         emit(ResponseState.Error(error.message.orEmpty()))
     }.flowOn(Dispatchers.IO)
+
+    protected suspend fun <T> safeApiCallResult(
+        apiCall: suspend () -> T,
+    ): ResponseState<T> {
+        return try {
+            ResponseState.Success(apiCall())
+        } catch (e: Exception) {
+            ResponseState.Error(e.message.orEmpty())
+        }
+    }
 
 }
