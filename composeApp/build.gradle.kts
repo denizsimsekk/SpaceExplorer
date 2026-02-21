@@ -16,7 +16,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    
+
     listOf(
         iosArm64(),
         iosSimulatorArm64()
@@ -26,7 +26,7 @@ kotlin {
             isStatic = true
         }
     }
-    
+
     sourceSets {
         androidMain.dependencies {
             implementation(libs.koin.android)
@@ -56,6 +56,12 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.serialization.json)
+            implementation("org.jetbrains.compose.components:components-resources")
+            implementation(libs.coil3.compose)
+            implementation(libs.coil3.network.ktor)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.jetbrains.navigation3.ui)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)

@@ -1,6 +1,7 @@
 package com.example.spaceexplorer.data.model
 
-import com.example.spaceexplorer.domain.model.SpaceLaunchesViewEntity
+import com.example.spaceexplorer.domain.model.SpaceLaunchViewEntity
+import com.example.spaceexplorer.util.formatDate
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -33,35 +34,15 @@ data class SpaceLaunchResponseDto(
     val upcoming: Boolean? = null,
     val window: Int? = null
 ) {
-    fun toViewEntity(): SpaceLaunchesViewEntity {
-        return SpaceLaunchesViewEntity(
-            auto_update = auto_update ?: false,
-            capsules = capsules ?: emptyList(),
-            cores = cores ?: emptyList(),
-            crew = crew ?: emptyList(),
-            date_local = date_local ?: "",
-            date_precision = date_precision ?: "",
-            date_unix = date_unix ?: 0,
-            date_utc = date_utc ?: "",
-            details = details ?: "",
-            failures = failures ?: emptyList(),
-            fairings = fairings ?: Fairings(),
-            flight_number = flight_number ?: 0,
+    fun toViewEntity(): SpaceLaunchViewEntity {
+        return SpaceLaunchViewEntity(
             id = id ?: "",
-            launch_library_id = launch_library_id ?: "",
-            launchpad = launchpad ?: "",
             links = links ?: Links(),
             name = name ?: "",
-            net = net ?: false,
-            payloads = payloads ?: emptyList(),
-            rocket = rocket ?: "",
-            ships = ships ?: emptyList(),
-            static_fire_date_unix = static_fire_date_unix ?: 0,
-            static_fire_date_utc = static_fire_date_utc ?: "",
             success = success ?: false,
-            tbd = tbd ?: false,
-            upcoming = upcoming ?: false,
-            window = window ?: 0
+            rocketId = rocket ?: "",
+            date = formatDate(date_utc ?: ""),
+            articleUrl = links?.article ?: links?.wikipedia
         )
     }
 }

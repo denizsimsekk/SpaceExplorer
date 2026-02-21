@@ -1,5 +1,8 @@
 package com.example.spaceexplorer.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class RocketViewEntity(
     val active: Boolean,
     val boosters: Int,

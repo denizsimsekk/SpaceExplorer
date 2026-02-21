@@ -1,0 +1,24 @@
+CREATE TABLE RocketCache (
+    id TEXT PRIMARY KEY NOT NULL,
+    name TEXT NOT NULL,
+    type TEXT NOT NULL,
+    active INTEGER NOT NULL,
+    company TEXT NOT NULL,
+    country TEXT NOT NULL,
+    description TEXT NOT NULL,
+    first_flight TEXT NOT NULL,
+    stages INTEGER NOT NULL,
+    boosters INTEGER NOT NULL,
+    cost_per_launch INTEGER NOT NULL,
+    success_rate_pct INTEGER NOT NULL
+);
+
+selectAll:
+SELECT * FROM RocketCache;
+
+selectById:
+SELECT * FROM RocketCache WHERE id = ?;
+
+insertOrReplace:
+INSERT OR REPLACE INTO RocketCache(id, name, type, active, company, country, description, first_flight, stages, boosters, cost_per_launch, success_rate_pct)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);

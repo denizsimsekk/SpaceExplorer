@@ -9,8 +9,10 @@ import com.example.spaceexplorer.data.repository.RocketRepositoryImpl
 import com.example.spaceexplorer.data.repository.SpaceLaunchesRepositoryImpl
 import com.example.spaceexplorer.domain.repository.RocketRepository
 import com.example.spaceexplorer.domain.repository.SpaceLaunchesRepository
+import com.example.spaceexplorer.domain.usecase.GetSpaceLaunchDetailUseCase
 import com.example.spaceexplorer.domain.usecase.GetSpaceLaunchesUseCase
 import com.example.spaceexplorer.getPlatform
+import com.example.spaceexplorer.presentation.spacelaunchdetails.SpaceLaunchDetailsViewModel
 import com.example.spaceexplorer.presentation.spacelaunches.SpaceLaunchesViewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -21,7 +23,7 @@ val networkModule = module {
 }
 
 private val repositoryModule = module {
-    single<SpaceLaunchesRepository> { SpaceLaunchesRepositoryImpl(get()) }
+    single<SpaceLaunchesRepository> { SpaceLaunchesRepositoryImpl(get(), get()) }
     single<RocketRepository> {
         RocketRepositoryImpl(
             apiService = get(),
@@ -36,10 +38,14 @@ private val useCaseModule = module {
             rocketRepository = get()
         )
     }
+    factory<GetSpaceLaunchDetailUseCase> {
+        GetSpaceLaunchDetailUseCase(spaceLaunchesRepository = get())
+    }
 }
 
 private val viewModelModule = module {
     factory<SpaceLaunchesViewModel> { SpaceLaunchesViewModel(get()) }
+    factory<SpaceLaunchDetailsViewModel> { SpaceLaunchDetailsViewModel(get()) }
 }
 
 private val platformCoreModule = module {

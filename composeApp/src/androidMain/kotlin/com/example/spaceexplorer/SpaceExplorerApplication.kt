@@ -6,6 +6,6 @@ import com.example.spaceexplorer.di.initKoin
 class SpaceExplorerApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoin(applicationContext)
+        initKoin(this@SpaceExplorerApplication)
     }
 }
