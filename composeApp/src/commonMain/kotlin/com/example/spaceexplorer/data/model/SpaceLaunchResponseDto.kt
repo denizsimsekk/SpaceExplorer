@@ -2,6 +2,7 @@ package com.example.spaceexplorer.data.model
 
 import com.example.spaceexplorer.domain.model.SpaceLaunchViewEntity
 import com.example.spaceexplorer.util.formatDate
+import com.example.spaceexplorer.util.formatDateWithTime
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -42,7 +43,8 @@ data class SpaceLaunchResponseDto(
             success = success ?: false,
             rocketId = rocket ?: "",
             date = formatDate(date_utc ?: ""),
-            articleUrl = links?.article ?: links?.wikipedia
+            articleUrl = links?.article ?: links?.wikipedia,
+            dateTime = formatDateWithTime(date_utc ?: ""),
         )
     }
 }

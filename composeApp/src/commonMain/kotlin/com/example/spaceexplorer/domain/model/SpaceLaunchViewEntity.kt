@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SpaceLaunchViewEntity(
     val date: String,
+    val dateTime: String,
     val id: String,
     val links: Links,
     val name: String,

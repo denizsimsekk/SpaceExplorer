@@ -70,7 +70,7 @@ fun SpaceLaunchDetailScreen(
                     fontSize = 22
                 )
                 AppText(
-                    text = spaceLaunchViewEntity.date,
+                    text = spaceLaunchViewEntity.dateTime,
                     color = Color.White.copy(alpha = 0.8f),
                     modifier = Modifier.padding(top = 8.dp)
                 )
