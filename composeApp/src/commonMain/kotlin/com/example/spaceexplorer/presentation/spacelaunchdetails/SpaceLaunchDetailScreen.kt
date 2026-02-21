@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -13,9 +15,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarData
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.spaceexplorer.domain.model.SpaceLaunchViewEntity
 import com.example.spaceexplorer.presentation.common.AppText
@@ -35,40 +40,62 @@ import spaceexplorer.composeapp.generated.resources.bg_space_success
 @Composable
 fun SpaceLaunchDetailScreen(
     spaceLaunchViewEntity: SpaceLaunchViewEntity,
+    onBackClick: () -> Unit,
     onUrlClicked: (String) -> Unit
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
-            painter = painterResource(if (spaceLaunchViewEntity?.success == true) Res.drawable.bg_space_success else Res.drawable.bg_space_failed),
+            painter = painterResource(if (spaceLaunchViewEntity.success) Res.drawable.bg_space_success else Res.drawable.bg_space_failed),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
         )
         Column(
             modifier = Modifier
-                .fillMaxSize().padding(12.dp)
-                .padding(12.dp)
+                .fillMaxSize()
                 .safeDrawingPadding()
-                .clip(RoundedCornerShape(12.dp))
-                .background(Color.Black.copy(alpha = 0.5f)),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
-
-            AsyncImage(
-                model = spaceLaunchViewEntity.links.patch?.small,
-                contentDescription = null,
-                modifier = Modifier.size(200.dp),
-                contentScale = ContentScale.Fit,
-            )
-            HorizontalDivider(modifier = Modifier.size(16.dp))
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color.Black.copy(alpha = 0.5f))
+                    .clickable(onClick = onBackClick)
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.White,
+                    modifier = Modifier.size(24.dp)
+                )
                 AppText(
                     text = spaceLaunchViewEntity.name,
-                    modifier = Modifier.padding(top = 4.dp),
-                    fontSize = 22
+                    modifier = Modifier.padding(start = 8.dp),
+                    fontSize = 20
                 )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(12.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(Color.Black.copy(alpha = 0.5f)),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                AsyncImage(
+                    model = spaceLaunchViewEntity.links.patch?.small,
+                    contentDescription = null,
+                    modifier = Modifier.size(200.dp),
+                    contentScale = ContentScale.Fit,
+                )
+                HorizontalDivider(modifier = Modifier.size(16.dp))
+                HorizontalDivider(modifier = Modifier.size(16.dp))
                 AppText(
                     text = spaceLaunchViewEntity.dateTime,
                     color = Color.White.copy(alpha = 0.8f),
@@ -92,17 +119,18 @@ fun SpaceLaunchDetailScreen(
                     ),
                     modifier = Modifier.padding(top = 8.dp)
                 )
+
+
                 if (spaceLaunchViewEntity.articleUrl.isNullOrEmpty().not()) {
                     AppText(
                         text = "See article for this launch",
                         underline = true,
                         modifier = Modifier.clickable {
                             onUrlClicked.invoke(spaceLaunchViewEntity.articleUrl)
-
-                        })
+                        }
+                    )
                 }
             }
-
 
         }
     }

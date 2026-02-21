@@ -36,6 +36,7 @@ fun App() {
                     is AppRoute.LaunchDetails -> NavEntry(key) {
                         SpaceLaunchDetailScreen(
                             spaceLaunchViewEntity = key.spaceLaunchesViewEntity,
+                            onBackClick = { backStack.removeLastOrNull() },
                             onUrlClicked = { url ->
                                 backStack.add(AppRoute.LaunchArticleScreen(url))
                             }
