@@ -1,4 +1,4 @@
-package com.example.spaceexplorer.presentation
+package com.example.spaceexplorer.presentation.launcharticle
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable

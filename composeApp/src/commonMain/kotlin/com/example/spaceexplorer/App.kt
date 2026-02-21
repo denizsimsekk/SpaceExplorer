@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.example.spaceexplorer.navigation.AppRoute
-import com.example.spaceexplorer.presentation.LaunchArticleScreen
+import com.example.spaceexplorer.presentation.launcharticle.LaunchArticleScreen
 import com.example.spaceexplorer.presentation.spacelaunches.SpaceLaunchesScreen
 import com.example.spaceexplorer.presentation.spacelaunchdetails.SpaceLaunchDetailScreen
 import com.example.spaceexplorer.presentation.spacelaunches.SpaceLaunchesViewModel
