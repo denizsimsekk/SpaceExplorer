@@ -14,7 +14,7 @@ The project uses **MVVM** and **Clean Architecture** to keep the code organized 
 
 ## 📱 Expect/Actual Mechanism
 The project leverages **Kotlin Multiplatform's `expect/actual` mechanism** for platform-specific implementations.  
-- Functions for **WebView** or **SQLDelight** use this pattern, so the shared code works on all platforms while keeping platform-specific functionality.
+- Functions for **WebView** or **SQLDelight** and date format function use this pattern, so the shared code works on all platforms while keeping platform-specific functionality.
 
 ## 🛠️ Libraries & Tools
 
