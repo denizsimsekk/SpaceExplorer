@@ -1,6 +1,5 @@
 package com.example.spaceexplorer.util
 
-import kotlinx.datetime.Instant
 import platform.Foundation.NSDate
 import platform.Foundation.NSDateFormatter
 import platform.Foundation.NSLocale
@@ -8,6 +7,7 @@ import platform.Foundation.NSTimeZone
 import platform.Foundation.currentLocale
 import platform.Foundation.dateWithTimeIntervalSince1970
 import platform.Foundation.timeZoneWithName
+import kotlin.time.Instant
 
 actual fun formatDate(input: String): String {
     if (input.isBlank()) return input
@@ -19,7 +19,7 @@ actual fun formatDate(input: String): String {
             timeZone = NSTimeZone.timeZoneWithName("UTC")!!
             locale = NSLocale.currentLocale
         }
-        formatter.stringFromDate(date) ?: input
+        formatter.stringFromDate(date)
     } catch (e: Exception) {
         input
     }
@@ -35,7 +35,7 @@ actual fun formatDateWithTime(input: String): String {
             timeZone = NSTimeZone.timeZoneWithName("UTC")!!
             locale = NSLocale.currentLocale
         }
-        formatter.stringFromDate(date) ?: input
+        formatter.stringFromDate(date)
     } catch (e: Exception) {
         input
     }

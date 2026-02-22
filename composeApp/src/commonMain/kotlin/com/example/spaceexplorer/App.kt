@@ -7,10 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
-import com.example.spaceexplorer.navigation.AppRoute
+import com.example.spaceexplorer.presentation.navigation.AppRoute
 import com.example.spaceexplorer.presentation.launcharticle.LaunchArticleScreen
 import com.example.spaceexplorer.presentation.spacelaunches.SpaceLaunchesScreen
 import com.example.spaceexplorer.presentation.spacelaunchdetails.SpaceLaunchDetailScreen
+import com.example.spaceexplorer.presentation.spacelaunchdetails.SpaceLaunchDetailsViewModel
 import com.example.spaceexplorer.presentation.spacelaunches.SpaceLaunchesViewModel
 import org.koin.compose.koinInject
 
@@ -34,12 +35,14 @@ fun App() {
                     }
 
                     is AppRoute.LaunchDetails -> NavEntry(key) {
+                        val viewModel = koinInject<SpaceLaunchDetailsViewModel>()
                         SpaceLaunchDetailScreen(
-                            spaceLaunchViewEntity = key.spaceLaunchesViewEntity,
+                            spaceLaunchId = key.spaceLaunchId,
                             onBackClick = { backStack.removeLastOrNull() },
                             onUrlClicked = { url ->
                                 backStack.add(AppRoute.LaunchArticleScreen(url))
-                            }
+                            },
+                            viewModel = viewModel
                         )
                     }
 

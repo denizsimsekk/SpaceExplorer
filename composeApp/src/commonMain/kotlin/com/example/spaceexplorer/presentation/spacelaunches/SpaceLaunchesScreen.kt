@@ -45,7 +45,7 @@ import spaceexplorer.composeapp.generated.resources.bg_space
 @Composable
 fun SpaceLaunchesScreen(
     viewModel: SpaceLaunchesViewModel,
-    onLaunchClick: (SpaceLaunchViewEntity) -> Unit
+    onLaunchClick: (String) -> Unit
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -114,7 +114,7 @@ fun SpaceLaunchesScreen(
                                 items(uiState.spaceLaunches) { launch ->
                                     LaunchCard(
                                         spaceLaunchViewEntity = launch,
-                                        onClick = { onLaunchClick(launch) }
+                                        onClick = { onLaunchClick(launch.id) }
                                     )
                                 }
                             }

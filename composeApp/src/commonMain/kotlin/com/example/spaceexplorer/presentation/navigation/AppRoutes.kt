@@ -1,4 +1,4 @@
-package com.example.spaceexplorer.navigation
+package com.example.spaceexplorer.presentation.navigation
 
 import androidx.navigation3.runtime.NavKey
 import com.example.spaceexplorer.domain.model.SpaceLaunchViewEntity
@@ -10,7 +10,7 @@ sealed interface AppRoute : NavKey {
     data object SpaceLaunches : AppRoute
 
     @Serializable
-    data class LaunchDetails(val spaceLaunchesViewEntity: SpaceLaunchViewEntity) : AppRoute
+    data class LaunchDetails(val spaceLaunchId: String) : AppRoute
 
     @Serializable
     data class LaunchArticleScreen(val url: String) : AppRoute
