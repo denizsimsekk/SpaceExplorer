@@ -9,15 +9,12 @@ import kotlinx.serialization.Serializable
 data class SpaceLaunchResponseDto(
     val auto_update: Boolean? = null,
     val capsules: List<String>? = null,
-    val cores: List<Core>? = null,
     val crew: List<String>? = null,
     val date_local: String? = null,
     val date_precision: String? = null,
     val date_unix: Int? = null,
     val date_utc: String? = null,
     val details: String? = null,
-    val failures: List<Failure>? = null,
-    val fairings: Fairings? = null,
     val flight_number: Int? = null,
     val id: String? = null,
     val launch_library_id: String? = null,
@@ -38,13 +35,13 @@ data class SpaceLaunchResponseDto(
     fun toViewEntity(): SpaceLaunchViewEntity {
         return SpaceLaunchViewEntity(
             id = id ?: "",
-            links = links ?: Links(),
             name = name ?: "",
             success = success ?: false,
             rocketId = rocket ?: "",
             date = formatDate(date_utc ?: ""),
             articleUrl = links?.article ?: links?.wikipedia,
             dateTime = formatDateWithTime(date_utc ?: ""),
+            imageUrl = links?.patch?.small
         )
     }
 }

@@ -1,0 +1,25 @@
+CREATE TABLE SpaceLaunch (
+    id TEXT PRIMARY KEY NOT NULL,
+    date TEXT NOT NULL,
+    date_time TEXT NOT NULL,
+    name TEXT NOT NULL,
+    success INTEGER NOT NULL,
+    rocket_id TEXT NOT NULL,
+    rocket_name TEXT,
+    rocket_description TEXT,
+    article_url TEXT,
+    image_url TEXT
+);
+
+selectAll:
+SELECT * FROM SpaceLaunch;
+
+selectById:
+SELECT * FROM SpaceLaunch WHERE id = ?;
+
+deleteAll:
+DELETE FROM SpaceLaunch;
+
+insertOrReplace:
+INSERT OR REPLACE INTO SpaceLaunch(id, date, date_time, name, success, rocket_id, rocket_name, rocket_description, article_url, image_url)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);

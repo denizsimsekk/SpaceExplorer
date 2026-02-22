@@ -21,18 +21,9 @@ data class RocketResponseDto(
 ) {
     fun toViewEntity(): RocketViewEntity {
         return RocketViewEntity(
-            active = active,
-            boosters = boosters,
-            company = company,
-            cost_per_launch = cost_per_launch,
-            country = country,
             description = description,
-            first_flight = first_flight,
             id = id,
-            name = name,
-            stages = stages,
-            success_rate_pct = success_rate_pct,
-            type = type,
+            name = name
         )
     }
 }

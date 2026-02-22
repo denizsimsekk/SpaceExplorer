@@ -6,7 +6,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -39,7 +38,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.example.spaceexplorer.domain.model.SpaceLaunchViewEntity
 import com.example.spaceexplorer.presentation.common.AppText
-import org.jetbrains.compose.resources.painterResource
+import com.example.spaceexplorer.presentation.base.BaseSpaceScreen
 import spaceexplorer.composeapp.generated.resources.Res
 import spaceexplorer.composeapp.generated.resources.bg_space
 
@@ -55,13 +54,7 @@ fun SpaceLaunchesScreen(
         viewModel.getSpaceLaunches()
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(Res.drawable.bg_space),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
+    BaseSpaceScreen(backgroundDrawable = Res.drawable.bg_space) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -85,14 +78,23 @@ fun SpaceLaunchesScreen(
                 }
 
                 uiState.errorMessage != null -> {
-                    Box(
+                    Column(
                         modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        Text(
+                        AppText(
                             text = uiState.errorMessage ?: "Error",
-                            color = Color.White,
-                            modifier = Modifier.padding(16.dp)
+                            modifier = Modifier.padding(16.dp),
+                            fontSize = 16
+                        )
+                        AppText(
+                            text = "Try Again.",
+                            underline = true,
+                            modifier = Modifier.clickable {
+                                viewModel.getSpaceLaunches()
+                            },
+                            fontSize = 18
                         )
                     }
                 }
@@ -141,7 +143,7 @@ private fun LaunchCard(
         verticalArrangement = Arrangement.Center
     ) {
         AsyncImage(
-            model = spaceLaunchViewEntity.links.patch?.small,
+            model = spaceLaunchViewEntity.imageUrl,
             contentDescription = null,
             modifier = Modifier.size(80.dp),
             contentScale = ContentScale.Fit,

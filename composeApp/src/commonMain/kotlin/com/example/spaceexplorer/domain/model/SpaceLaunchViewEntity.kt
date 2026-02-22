@@ -8,10 +8,10 @@ data class SpaceLaunchViewEntity(
     val date: String,
     val dateTime: String,
     val id: String,
-    val links: Links,
     val name: String,
     val success: Boolean,
     val rocketId: String,
     var rocketDetails: RocketViewEntity? = null,
-    val articleUrl: String? = null
+    val articleUrl: String? = null,
+    val imageUrl: String? = null
 )

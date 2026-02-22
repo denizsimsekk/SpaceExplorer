@@ -20,7 +20,8 @@ class SpaceLaunchesViewModel(private val getSpaceLaunchesUseCase: GetSpaceLaunch
                     it.copy(
                         spaceLaunches = response,
                         isLoading = false,
-                        isRefreshing = false
+                        isRefreshing = false,
+                        errorMessage = null
                     )
                 }
             },

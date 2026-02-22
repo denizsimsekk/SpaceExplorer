@@ -1,25 +1,14 @@
 package com.example.spaceexplorer.presentation.spacelaunchdetails
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,11 +17,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.spaceexplorer.domain.model.SpaceLaunchViewEntity
 import com.example.spaceexplorer.presentation.common.AppText
-import org.jetbrains.compose.resources.painterResource
+import com.example.spaceexplorer.presentation.base.BaseSpaceScreen
 import spaceexplorer.composeapp.generated.resources.Res
 import spaceexplorer.composeapp.generated.resources.bg_space_failed
 import spaceexplorer.composeapp.generated.resources.bg_space_success
@@ -44,94 +32,66 @@ fun SpaceLaunchDetailScreen(
     onUrlClicked: (String) -> Unit
 ) {
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(if (spaceLaunchViewEntity.success) Res.drawable.bg_space_success else Res.drawable.bg_space_failed),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.Crop
-        )
+    BaseSpaceScreen(
+        backgroundDrawable = if (spaceLaunchViewEntity.success) Res.drawable.bg_space_success else Res.drawable.bg_space_failed,
+        showTopBar = true,
+        topBarTitle = spaceLaunchViewEntity.name,
+        onBackClick = onBackClick
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .safeDrawingPadding()
+                .padding(12.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(Color.Black.copy(alpha = 0.5f)),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(12.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color.Black.copy(alpha = 0.5f))
-                    .clickable(onClick = onBackClick)
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = Color.White,
-                    modifier = Modifier.size(24.dp)
-                )
+            Spacer(modifier = Modifier.weight(1f))
+
+            AsyncImage(
+                model = spaceLaunchViewEntity.imageUrl,
+                contentDescription = null,
+                modifier = Modifier.size(200.dp),
+                contentScale = ContentScale.Fit,
+            )
+
+            AppText(
+                text = spaceLaunchViewEntity.dateTime,
+                color = Color.White.copy(alpha = 0.8f),
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            AppText(
+                text = "Rocket: ${spaceLaunchViewEntity.rocketDetails?.name}",
+                color = Color.White.copy(alpha = 0.8f),
+                modifier = Modifier.padding(top = 8.dp)
+            )
+            AppText(
+                text = "${spaceLaunchViewEntity.rocketDetails?.description}",
+                color = Color.White.copy(alpha = 0.8f),
+                modifier = Modifier.padding(top = 2.dp),
+                textAlign = TextAlign.Center
+            )
+            AppText(
+                text = if (spaceLaunchViewEntity.success) "Success" else "Failed",
+                color = if (spaceLaunchViewEntity.success) Color(0xFF4CAF50) else Color(
+                    0xFFE53935
+                ),
+                modifier = Modifier.padding(top = 8.dp)
+            )
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            if (spaceLaunchViewEntity.articleUrl.isNullOrEmpty().not()) {
                 AppText(
-                    text = spaceLaunchViewEntity.name,
-                    modifier = Modifier.padding(start = 8.dp),
-                    fontSize = 20
+                    text = "See article for this launch",
+                    underline = true,
+                    modifier = Modifier.padding(bottom = 8.dp).clickable {
+                        onUrlClicked.invoke(spaceLaunchViewEntity.articleUrl)
+                    }
                 )
             }
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(12.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color.Black.copy(alpha = 0.5f)),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                AsyncImage(
-                    model = spaceLaunchViewEntity.links.patch?.small,
-                    contentDescription = null,
-                    modifier = Modifier.size(200.dp),
-                    contentScale = ContentScale.Fit,
-                )
-                HorizontalDivider(modifier = Modifier.size(16.dp))
-                HorizontalDivider(modifier = Modifier.size(16.dp))
-                AppText(
-                    text = spaceLaunchViewEntity.dateTime,
-                    color = Color.White.copy(alpha = 0.8f),
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-                AppText(
-                    text = "Rocket: ${spaceLaunchViewEntity.rocketDetails?.name}",
-                    color = Color.White.copy(alpha = 0.8f),
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-                AppText(
-                    text = "${spaceLaunchViewEntity.rocketDetails?.description}",
-                    color = Color.White.copy(alpha = 0.8f),
-                    modifier = Modifier.padding(top = 2.dp),
-                    textAlign = TextAlign.Center
-                )
-                AppText(
-                    text = if (spaceLaunchViewEntity.success) "Success" else "Failed",
-                    color = if (spaceLaunchViewEntity.success) Color(0xFF4CAF50) else Color(
-                        0xFFE53935
-                    ),
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-
-
-                if (spaceLaunchViewEntity.articleUrl.isNullOrEmpty().not()) {
-                    AppText(
-                        text = "See article for this launch",
-                        underline = true,
-                        modifier = Modifier.clickable {
-                            onUrlClicked.invoke(spaceLaunchViewEntity.articleUrl)
-                        }
-                    )
-                }
-            }
-
         }
+
     }
 }

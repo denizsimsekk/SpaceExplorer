@@ -44,7 +44,10 @@ fun App() {
                     }
 
                     is AppRoute.LaunchArticleScreen -> NavEntry(key) {
-                        LaunchArticleScreen(url = key.url)
+                        LaunchArticleScreen(
+                            url = key.url,
+                            onBackClick = { backStack.removeLastOrNull() }
+                        )
                     }
 
 
