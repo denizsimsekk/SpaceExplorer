@@ -1,35 +1,33 @@
-This is a Kotlin Multiplatform project targeting Android, iOS.
+# 🚀 Space Explorer App - Compose Multiplatform 🚀
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+## 👩🏻‍💻 Architecture
+The project uses **MVVM** and **Clean Architecture** to keep the code organized and easy to maintain.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+- **Data Layer**:  
+  Responsible for fetching data from APIs, saving data to the local database, and retrieving data from it. A `BaseRepository` is implemented to reduce boilerplate code and standardize common operations.
 
-### Build and Run Android Application
+- **Domain Layer**:  
+  Contains **use cases**, **view entities**, and **repository interfaces** to abstract the business logic from the data layer. This keeps the core application logic separate and easy to test.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+- **Presentation Layer**:  
+  Contains **views** and **viewmodels**. A `BaseViewModel` is provided to simplify data fetching and reduce repetitive code. A `BaseScreen` is implemented to reuse common background layouts and UI logic across screens.
 
-### Build and Run iOS Application
+## 📱 Expect/Actual Mechanism
+The project leverages **Kotlin Multiplatform's `expect/actual` mechanism** for platform-specific implementations.  
+- Functions for **WebView** or **SQLDelight** use this pattern, so the shared code works on all platforms while keeping platform-specific functionality.
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+## 🛠️ Libraries & Tools
 
----
+The project uses the following libraries and tools:
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+- **Ktor** – for making network requests  
+- **Koin** – for dependency injection  
+- **Coil** – for image loading  
+- **Navigation 3** – for in-app navigation  
+- **SQLDelight** – for database management
+
+## 🧪 Unit Testing
+
+The project includes **unit tests** for use cases, repositories, and viewmodels using **Kotlin Test**.  
+- Shared business logic is tested in a multiplatform-friendly way.
+- Tests use fake data and mocks to check the logic without relying on APIs or databases.
