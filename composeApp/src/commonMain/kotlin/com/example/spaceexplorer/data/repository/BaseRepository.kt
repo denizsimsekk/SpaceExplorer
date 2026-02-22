@@ -1,15 +1,15 @@
 package com.example.spaceexplorer.data.repository
 
 import com.example.spaceexplorer.domain.model.ResponseState
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.io.IOException
 
-abstract class BaseRepository {
+abstract class BaseRepository(private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
     protected fun <T> safeApiCall(
         apiCall: suspend () -> T
@@ -19,7 +19,7 @@ abstract class BaseRepository {
         emit(ResponseState.Success(result))
     }.catch { error ->
         emit(ResponseState.Error(error.message.orEmpty()))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
     protected suspend fun <T> safeApiCallResult(
         apiCall: suspend () -> T,

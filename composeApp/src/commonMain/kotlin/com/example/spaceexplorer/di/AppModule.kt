@@ -5,6 +5,7 @@ import com.example.spaceexplorer.database.SpaceExplorerDatabase
 import com.example.spaceexplorer.Platform
 import com.example.spaceexplorer.data.remote.ApiClient
 import com.example.spaceexplorer.data.remote.ApiService
+import com.example.spaceexplorer.data.remote.SpaceExplorerApi
 import com.example.spaceexplorer.data.repository.RocketRepositoryImpl
 import com.example.spaceexplorer.data.repository.SpaceLaunchesRepositoryImpl
 import com.example.spaceexplorer.domain.repository.RocketRepository
@@ -20,13 +21,14 @@ import org.koin.dsl.module
 val networkModule = module {
     single { ApiClient.httpClient }
     single { ApiService(get()) }
+    single<SpaceExplorerApi> { get<ApiService>() }
 }
 
 private val repositoryModule = module {
     single<SpaceLaunchesRepository> { SpaceLaunchesRepositoryImpl(get(), get()) }
     single<RocketRepository> {
         RocketRepositoryImpl(
-            apiService = get(),
+            api = get(),
         )
     }
 }

@@ -19,6 +19,7 @@ kotlinx-serialization = "1.7.3"
 sqlDelight = "2.0.2"
 coil = "3.0.0"
 kotlinx-datetime = "0.6.1"
+kotlinx-coroutines = "1.8.1"
 multiplatform-nav3-ui = "1.0.0-alpha05"
 
 [libraries]
@@ -65,6 +66,9 @@ coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.r
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
 sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
+sqldelight-sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqlDelight" }
+
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
 
 # Navigation 3
 jetbrains-navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "multiplatform-nav3-ui" }

@@ -6,12 +6,12 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 
-class ApiService(private val client: HttpClient) {
+class ApiService(private val client: HttpClient) : SpaceExplorerApi {
 
-    suspend fun getSpaceLaunches(): List<SpaceLaunchResponseDto> =
+    override suspend fun getSpaceLaunches(): List<SpaceLaunchResponseDto> =
         client.get(urlString = "launches").body<List<SpaceLaunchResponseDto>>()
 
-    suspend fun getRocketDetails(id: String): RocketResponseDto =
+    override suspend fun getRocketDetails(id: String): RocketResponseDto =
         client.get(urlString = "rockets/$id").body<RocketResponseDto>()
 
 }

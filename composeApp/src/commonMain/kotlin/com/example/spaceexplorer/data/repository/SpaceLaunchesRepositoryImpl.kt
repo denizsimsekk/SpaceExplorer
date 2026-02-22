@@ -1,23 +1,25 @@
 package com.example.spaceexplorer.data.repository
 
-import com.example.spaceexplorer.data.remote.ApiService
+import com.example.spaceexplorer.data.remote.SpaceExplorerApi
 import com.example.spaceexplorer.database.SpaceExplorerDatabase
 import com.example.spaceexplorer.domain.model.ResponseState
 import com.example.spaceexplorer.domain.model.RocketViewEntity
 import com.example.spaceexplorer.domain.model.SpaceLaunchViewEntity
 import com.example.spaceexplorer.domain.repository.SpaceLaunchesRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.Flow
 
 class SpaceLaunchesRepositoryImpl(
-    private val apiService: ApiService,
-    private val database: SpaceExplorerDatabase
-) : SpaceLaunchesRepository, BaseRepository() {
+    private val api: SpaceExplorerApi,
+    private val database: SpaceExplorerDatabase,
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+) : SpaceLaunchesRepository, BaseRepository(ioDispatcher = ioDispatcher) {
 
     override fun getSpaceLaunches(): Flow<ResponseState<List<SpaceLaunchViewEntity>>> {
-        return safeApiCall { apiService.getSpaceLaunches().map { it.toViewEntity() } }
+        return safeApiCall { api.getSpaceLaunches().map { it.toViewEntity() } }
     }
 
     override suspend fun getSpaceLaunchDetails(id: String): SpaceLaunchViewEntity? {
@@ -27,7 +29,7 @@ class SpaceLaunchesRepositoryImpl(
     override suspend fun saveLaunchesToLocal(
         launches: List<SpaceLaunchViewEntity>
     ) {
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             database.transaction {
                 database.spaceLaunchQueries.deleteAll()
                 launches.forEach { launch ->
@@ -49,7 +51,7 @@ class SpaceLaunchesRepositoryImpl(
     }
 
     override suspend fun getLaunchesFromLocal(): List<SpaceLaunchViewEntity>? {
-        return withContext(Dispatchers.IO) {
+        return withContext(ioDispatcher) {
             val rows = database.spaceLaunchQueries.selectAll().executeAsList()
             if (rows.isEmpty()) null
             else rows.map { row ->

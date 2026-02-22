@@ -1,6 +1,5 @@
 package com.example.spaceexplorer.domain.usecase
 
-import com.example.spaceexplorer.domain.model.ResponseState
 import com.example.spaceexplorer.domain.model.SpaceLaunchViewEntity
 import com.example.spaceexplorer.domain.repository.SpaceLaunchesRepository
 
